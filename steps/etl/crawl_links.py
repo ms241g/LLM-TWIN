@@ -1,4 +1,4 @@
-from urllib import urlparse
+from urllib.parse import urlparse
 
 from loguru import logger
 from tqdm import tqdm
@@ -16,11 +16,14 @@ def crawl_links(user: UserDocument, links: list[str]) -> Annotated[list[str], "c
 
     metadata = {}
     successfull_crawls = 0
+    logger.info("links: ", links)
     for link in tqdm(links):
+        print("Link: ", link)
         successfull_crawl, crawled_domain = _crawl_link(dispatcher, link, user)
         successfull_crawls += successfull_crawl
 
         metadata = _add_to_metadata(metadata, crawled_domain, successfull_crawl)
+        logger.info("metadata: ", metadata)
 
     step_context = get_step_context()
     step_context.add_output_metadata(output_name="crawled_links", metadata=metadata)
@@ -32,14 +35,17 @@ def crawl_links(user: UserDocument, links: list[str]) -> Annotated[list[str], "c
 
 def _crawl_link(dispatcher: CrawlerDispatcher, link: str, user: UserDocument) -> tuple[bool, str]:
     crawler = dispatcher.get_crawler(link)
+    logger.info("After getting the crawler from dispatcher")
     crawler_domain = urlparse(link).netloc
+    logger.info("After getting the crawler domain")
+    
 
     try:
         crawler.extract(link=link, user=user)
 
         return (True, crawler_domain)
     except Exception as e:
-        logger.error(f"An error occurred while crowling: {e!s}")
+        logger.error(f"An error occurred while crawling: {e!s}")
 
         return (False, crawler_domain)
 

@@ -1,6 +1,6 @@
-from urllib import urlparse
+from urllib.parse import urlparse
 
-from langchain_community.document_loaders import AsyncDocumentLoader
+from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain_community.document_transformers.html2text import Html2TextTransformer
 from loguru import logger
 
@@ -23,11 +23,11 @@ class CustomArticleCrawler(BaseCrawler):
         
         logger.info(f"Starting to crawl article: {link}")
 
-        loader = AsyncDocumentLoader()
+        loader = AsyncHtmlLoader([link])
         docs = loader.load()
 
         html2text = Html2TextTransformer()
-        docs_transformed = html2text.transform(docs)
+        docs_transformed = html2text.transform_documents(docs)
         doc_transformed = docs_transformed[0]
 
         content = {

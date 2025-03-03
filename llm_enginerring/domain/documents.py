@@ -19,8 +19,8 @@ class UserDocument(NoSQLBaseDocument):
 class Document(NoSQLBaseDocument, ABC):
     content: dict
     platform: str
-    author_id: UUID4 = Field(alias="authorId")
-    author_full_name: str = Field(alias="authorFullName")
+    author_id: UUID4 = Field(alias="author_id")
+    author_full_name: str = Field(alias="author_full_name")
     
     
 class RepositoryDocument(NoSQLBaseDocument):

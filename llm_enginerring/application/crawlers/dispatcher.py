@@ -6,7 +6,7 @@ from loguru import logger
 from .base import BaseCrawler
 from .custom_article import CustomArticleCrawler
 from .github import GithubCrawler
-from .linkedin import LinkedinCrawler
+from .linkedin import LinkedInCrawler
 from .medium import MediumCrawler
 
 
@@ -17,24 +17,24 @@ class CrawlerDispatcher:
     @classmethod
     def build(cls) -> "CrawlerDispatcher":
         dispatcher = cls()
-        
-        return dispatcher   
-    
+
+        return dispatcher
+
     def register_medium(self) -> "CrawlerDispatcher":
         self.register("https://medium.com", MediumCrawler)
 
         return self
 
     def register_linkedin(self) -> "CrawlerDispatcher":
-        self.register("https://www.linkedin.com", LinkedinCrawler)
+        self.register("https://linkedin.com", LinkedInCrawler)
 
         return self
-    
+
     def register_github(self) -> "CrawlerDispatcher":
         self.register("https://github.com", GithubCrawler)
 
         return self
-    
+
     def register(self, domain: str, crawler: type[BaseCrawler]) -> None:
         parsed_domain = urlparse(domain)
         domain = parsed_domain.netloc
@@ -45,10 +45,7 @@ class CrawlerDispatcher:
         for pattern, crawler in self._crawlers.items():
             if re.match(pattern, url):
                 return crawler()
-        else: 
+        else:
             logger.warning(f"No crawler found for {url}. Defaulting to CustomArticleCrawler.")
 
             return CustomArticleCrawler()
-
-
-
