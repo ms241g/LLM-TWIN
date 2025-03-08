@@ -21,19 +21,21 @@ class CustomArticleCrawler(BaseCrawler):
 
             return
         
-        logger.info(f"Starting to crawl article: {link}")
+        logger.info(f"Starting to scrape article: {link}")
 
         loader = AsyncHtmlLoader([link])
         docs = loader.load()
 
         html2text = Html2TextTransformer()
         docs_transformed = html2text.transform_documents(docs)
-        doc_transformed = docs_transformed[0]
+        docs_transformed = docs_transformed[0]
+        ##logger.info(f"doc_transformed: {docs_transformed}")
+        ##logger.info(f"doc_transform_raw: {docs_transformed.Document.metadata}")
 
         content = {
             "Title": docs_transformed.metadata.get("title"),
             "Subtitle": docs_transformed.metadata.get("description"),
-            "Content": doc_transformed.page_content,
+            "Content": docs_transformed.page_content,
             "language": docs_transformed.metadata.get("language"),
         } 
 
