@@ -10,7 +10,7 @@ from pipelines import (
 #    end_to_end_data,
 #    evaluating,
 #    export_artifact_to_json,
-#    feature_engineering,
+    feature_engineering,
 #    generate_datasets,
 #    training,
 )

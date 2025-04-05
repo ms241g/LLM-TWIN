@@ -10,10 +10,10 @@ from qdrant_client.http import exceptions
 from qdrant_client.http.models import Distance, VectorParams
 from qdrant_client.models import CollectionInfo, PointStruct, Record
 
-from llm_engineering.application.networks.embeddings import EmbeddingModelSingleton
-from llm_engineering.domain.exceptions import ImproperlyConfigured
-from llm_engineering.domain.types import DataCategory
-from llm_engineering.infrastructure.db.qdrant import connection
+from llm_enginerring.application.networks.embeddings import EmbeddingModelSingleton
+from llm_enginerring.domain.exceptions import ImproperlyConfigured
+from llm_enginerring.domain.types import DataCategory
+from llm_enginerring.infrastructure.db.qdrant import connection
 
 T = TypeVar("T", bound="VectorBaseDocument")
 
